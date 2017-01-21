@@ -17,6 +17,7 @@ $(call inherit-product, vendor/xosp/config/common_full_phone.mk)
 $(call inherit-product, vendor/xosp/config/xosp.mk)
 
 # Boot animation
+TARGET_BOOTANIMATION_HALF_RES := true
 TARGET_SCREEN_WIDTH := 720
 TARGET_SCREEN_HEIGHT := 1280
 
