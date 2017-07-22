@@ -16,9 +16,15 @@
 
 # Inherit from msm8916-common
 $(call inherit-product, device/motorola/msm8916-common/msm8916.mk)
+# Inherit from opengapps
+$(call inherit-product, vendor/google/build/opengapps-packages.mk)
 
 # Screen density
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
+
+# Gapps
+GAPPS_VARIANT := nano
+GAPPS_FORCE_MATCHING_DPI := true
 
 # Audio
 PRODUCT_COPY_FILES += \
