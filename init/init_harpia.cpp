@@ -34,6 +34,19 @@
 #include "log.h"
 #include "util.h"
 #include <sys/sysinfo.h>
+#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+#include <sys/_system_properties.h>
+
+void property_override(char const prop[], char const value[])
+{
+    prop_info *pi;
+
+    pi = (prop_info*) __system_property_find(prop);
+    if (pi)
+        __system_property_update(pi, value, strlen(value));
+    else
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
 
 bool is2GB()
 {
@@ -112,11 +125,11 @@ void vendor_load_properties()
         /* XT1609 */
     }
 
-    property_set("ro.product.device", "harpia");
-    property_set("ro.build.product", "harpia");
-    property_set("ro.build.description",
+    property_override("ro.product.device", "harpia");
+    property_override("ro.build.product", "harpia");
+    property_override("ro.build.description",
             "harpia-user 6.0.1 MPI24.241-15.3 3 release-keys");
-    property_set("ro.build.fingerprint",
+    property_override("ro.build.fingerprint",
             "motorola/harpia/harpia:6.0.1/MPI24.241-15.3/3:user/release-keys");
 
     if (customerid) {
