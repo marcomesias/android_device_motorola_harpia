@@ -26,6 +26,9 @@ TARGET_OTA_ASSERT_DEVICE := harpia,harpia_retail
 TARGET_INIT_VENDOR_LIB := libinit_harpia
 TARGET_RECOVERY_DEVICE_MODULES := libinit_harpia
 
+# Sdclang
+TARGET_USE_SDCLANG := true
+
 # Kernel
 TARGET_KERNEL_CONFIG := harpia_defconfig
 
