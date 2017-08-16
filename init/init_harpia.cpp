@@ -1,6 +1,5 @@
 /*
    Copyright (c) 2016, The CyanogenMod Project. All rights reserved.
-   Copyright (c) 2016, The LineageOS Project. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -35,6 +34,19 @@
 #include "log.h"
 #include "util.h"
 #include <sys/sysinfo.h>
+#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+#include <sys/_system_properties.h>
+
+void property_override(char const prop[], char const value[])
+{
+    prop_info *pi;
+
+    pi = (prop_info*) __system_property_find(prop);
+    if (pi)
+        __system_property_update(pi, value, strlen(value));
+    else
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
 
 bool is2GB()
 {
@@ -46,31 +58,28 @@ bool is2GB()
 void vendor_load_properties()
 {
     const char *customerid = NULL;
-    std::string platform;
-    std::string dualsim;
-    std::string radio;
-    std::string bootdevice;
-    std::string sku;
     bool msim = false;
-    int rc;
 
-    platform = property_get("ro.board.platform");
+    std::string platform = property_get("ro.board.platform");
     if (platform != ANDROID_TARGET)
         return;
 
-    dualsim = property_get("ro.boot.dualsim");
-    if (dualsim == "true") {
+    // Warning-less way of sprintf(var, ""); 
+    std::string sku = property_get("ro.boot.hardware.sku"); 
+
+    std::string dualsim = property_get("ro.boot.dualsim");
+    if (dualsim, "true") { 
         property_set("persist.radio.force_get_pref", "1");
         property_set("persist.radio.multisim.config", "dsds");
         property_set("ro.hw.dualsim", "true");
         msim = true;
-    }
+    } 
 
-    bootdevice = property_get("ro.boot.device");
-    property_set("ro.hw.device", bootdevice.c_str());
+    std::string bootdevice = property_get("ro.boot.device"); 
+        property_set("ro.hw.device", "bootdevice");
 
-    radio = property_get("ro.boot.radio");
-    property_set("ro.hw.radio", radio.c_str());
+    std::string radio = property_get("ro.boot.radio"); 
+        property_set("ro.hw.radio", "radio");
 
     if (is2GB()) {
         property_set("dalvik.vm.heapstartsize", "8m");
@@ -90,11 +99,10 @@ void vendor_load_properties()
 
     property_set("ro.telephony.default_network", "10");
 
-    sku = property_get("ro.boot.hardware.sku");
-    if (sku == "XT1600") {
+    if (sku== "XT1600") {
         /* XT1600 */
         customerid = "retail";
-    } else if (sku == "XT1601") {
+    } else if (sku == "XT1601") { 
         /* XT1601 */
         customerid = "retail";
         property_set("persist.radio.process_sups_ind", "1");
@@ -102,31 +110,29 @@ void vendor_load_properties()
             property_set("persist.radio.pb.max.match", "8");
             property_set("persist.radio.pb.min.match", "8");
         }
-    } else if (sku == "XT1602") {
+    } else if (sku == "XT1602") { 
         /* XT1602 */
-    } else if (sku == "XT1603") {
+    } else if (sku == "XT1603") { 
         /* XT1603 */
         customerid = "retail";
         property_set("persist.radio.pb.max.match", "10");
         property_set("persist.radio.pb.min.match", "7");
-    } else if (sku == "XT1604") {
+    } else if (sku == "XT1604") { 
         /* XT1604 - HAS NFC! */
-    } else if (sku == "XT1607") {
+    } else if (sku == "XT1607") { 
         /* XT1607 */
-    } else if (sku == "XT1609") {
+    } else if (sku == "XT1609") { 
         /* XT1609 */
     }
 
-    property_set("ro.product.device", "harpia");
-    property_set("ro.build.product", "harpia");
-    property_set("ro.build.description",
+    property_override("ro.product.device", "harpia");
+    property_override("ro.build.product", "harpia");
+    property_override("ro.build.description",
             "harpia-user 6.0.1 MPI24.241-15.3 3 release-keys");
-    property_set("ro.build.fingerprint",
+    property_override("ro.build.fingerprint",
             "motorola/harpia/harpia:6.0.1/MPI24.241-15.3/3:user/release-keys");
 
     if (customerid) {
         property_set("ro.mot.build.customerid", customerid);
     }
-
-    INFO("Found sku id: %s setting build properties for harpia device\n", sku.c_str());
-}
+    }
