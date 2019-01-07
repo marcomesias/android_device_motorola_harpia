@@ -23,16 +23,16 @@
 	<ctl name="RX1 Digital Volume" value="86" />
 	<ctl name="RX2 Digital Volume" value="86" />
 	<ctl name="RX3 Digital Volume" value="86" />
-	<ctl name="IIR1 INP1 Volume" value="84" />
-	<ctl name="IIR1 INP2 Volume" value="84" />
-	<ctl name="IIR1 INP3 Volume" value="84" />
-	<ctl name="IIR1 INP4 Volume" value="84" />
+	<ctl name="IIR1 INP1 Volume" value="86" />
+	<ctl name="IIR1 INP2 Volume" value="86" />
+	<ctl name="IIR1 INP3 Volume" value="86" />
+	<ctl name="IIR1 INP4 Volume" value="86" />
 	<ctl name="IIR1 INP1 MUX" value="ZERO" />
 	<ctl name="ADC1 Volume" value="0" />
 	<ctl name="ADC2 Volume" value="0" />
 	<ctl name="ADC3 Volume" value="0" />
-	<ctl name="DEC1 Volume" value="84" />
-	<ctl name="DEC2 Volume" value="84" />
+	<ctl name="DEC1 Volume" value="86" />
+	<ctl name="DEC2 Volume" value="86" />
 	<ctl name="DEC2 MUX" value="ZERO" />
 	<ctl name="DEC1 MUX" value="ZERO" />
 	<ctl name="ADC2 MUX" value="ZERO" />
